@@ -11,10 +11,10 @@ name: ESLint
 
 on:
   push:
-    branches: [ "main", "release/**" ]
+    branches: ["main", "release/**"]
   pull_request:
     # The branches below must be a subset of the branches above
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   eslint:
@@ -30,14 +30,17 @@ jobs:
 
       - name: Install ESLint
         run: |
-          npm install eslint@8.10.0
-          npm install @microsoft/eslint-formatter-sarif@3.1.0
+          bun install eslint@9.28.0
+          bun install @eslint/eslintrc@3.3.1
+          bun install eslint-config-next@15.3.3
+          bun install jiti@2.4.2
+          bun install @microsoft/eslint-formatter-sarif@3.1.0
 
       - name: Run ESLint
-        env:
-          SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
-        run: npx eslint .
-          --config eslint.config.mjs
+        # env:
+        #   SARIF_ESLINT_IGNORE_SUPPRESSED: "true"
+        run: bunx eslint .
+          --config eslint.config.ts
           --ext .js,.jsx,.ts,.tsx
           --format @microsoft/eslint-formatter-sarif
           --output-file eslint-results.sarif
